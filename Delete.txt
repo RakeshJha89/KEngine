@@ -1,0 +1,10 @@
+#ifndef REGISTER_CALL_INITH
+#define REGISTER_CALL_INIT_H(name)                      extern void init__##name();
+#define REGISTER_CALL_INIT_H_PARENT(name,parent)        extern void init__##name();
+
+#define REGISTER_CALL_INIT_CPP(name)                    ITF::InitFactory::registerFunctionExternal(#name,init__##name);
+#define REGISTER_CALL_INIT_CPP_PARENT(name,parent)      ITF::InitFactory::registerFunctionExternal(#name,init__##name);
+    
+#define REGISTER_CALL_INIT_BODY(name)                   void init__##name() {SINGLETONS.set##name(newAlloc(mId_Singleton,name()));};
+#define REGISTER_CALL_INIT_BODY_PARENT(name,parent)     void init__##name() {SINGLETONS.set##parent(newAlloc(mId_Singleton,name()));};
+#endif //REGISTER_CALL_INITH
