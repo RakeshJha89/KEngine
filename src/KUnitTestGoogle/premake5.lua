@@ -18,12 +18,12 @@ print("Building KUnitTestGoogle...")
     --Configuration Debug
 	print("Building Debug")
 	filter "configurations:Debug"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KUnitTestGoogle;" }		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/GoogleTest/include/", "$(ProjectDir)AIFramework" }
-        libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/GoogleTest/$(Configuration)/", "$(ProjectDir)/bin/$(Configuration)/" }
+		sysincludedirs { "" }		
+		includedirs { "$(ProjectDir)../src/KFrameworkAI/", "$(ProjectDir)../thirdparty/gtest/include/", "$(ProjectDir)../thirdparty/gmock/include/" }
+        libdirs { "$(ProjectDir)bin/$(Configuration)/", "$(ProjectDir)../thirdparty/gtest/$(Configuration)/", "$(ProjectDir)../thirdparty/gmock/$(Configuration)/" }
 		excludes { "" }		
         entrypoint("")        
-		links { "gtest" , "gmock", "KUnitTestGoogle" }
+		links { "gtest" , "gmock", "KFrameworkAI" }
         flags { "StaticRuntime", "Symbols" }
         postbuildcommands { "$(TargetDir)$(TargetFileName)" }		
 		defines { "DEBUG", "WIN_32", "WIN32", "_DEBUG", "_WINDOWS" }    
@@ -31,12 +31,12 @@ print("Building KUnitTestGoogle...")
     --Configuration Release
 	print("Building Release")
 	filter "configurations:Release"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KUnitTestGoogle;" }		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/GoogleTest/include/","$(ProjectDir)AIFramework" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/GoogleTest/$(Configuration)/", "$(ProjectDir)/bin/$(Configuration)/" }
+		sysincludedirs { "" }		
+		includedirs { "$(ProjectDir)../src/KFrameworkAI/", "$(ProjectDir)../thirdparty/gtest/include/", "$(ProjectDir)../thirdparty/gmock/include/" }
+	    libdirs { "$(ProjectDir)bin/$(Configuration)/", "$(ProjectDir)../thirdparty/gtest/$(Configuration)/", "$(ProjectDir)../thirdparty/gmock/$(Configuration)/" }
 		excludes { "" }		
         entrypoint("")        
-		links { "gtest" , "gmock", "KUnitTestGoogle" }    
+		links { "gtest" , "gmock", "KFrameworkAI" }    
         flags { "StaticRuntime", "Optimize" }
         postbuildcommands { "$(TargetDir)$(TargetFileName)" }		
 		defines { "NDEBUG", "WIN_32", "WIN32", "_WINDOWS" }		

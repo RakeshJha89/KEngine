@@ -5,8 +5,8 @@
 #pragma once
 
 #include "AICommon.h"
-#include "AIBehavior/AIBehaviorStatus.h"
-#include "AIBehavior/AIActionBind.h"
+#include "AIBehaviorStatus.h"
+#include "AIActionBind.h"
 
 class IBehavior
 {

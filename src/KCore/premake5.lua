@@ -5,6 +5,8 @@ project "KCore"
 	architecture "x86"
 	systemversion "10.0.10586.0"
 	characterset "MBCS"
+    pchheader "precompiled_Core.h"
+    pchsource "precompiled_Core.cpp"
     files
     { 
         "**.h",
@@ -18,27 +20,23 @@ project "KCore"
     --Configuration Debug
     print("Building Debug")
  	filter "configurations:Debug"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KCore;" }    
---[[
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KCore/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KCore/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }
+		includedirs { "" }
+	    libdirs { "" }
 		excludes { "" }      
 		links { "" }
         flags { "StaticRuntime", "Symbols" }		
-		defines { "DEBUG", "WIN_32", "WIN32", "_DEBUG", "_WINDOWS" }
+		defines { "DEBUG", "WIN_32", "WIN32", "_DEBUG", "_WINDOWS", "KARMA_GL" }
 
     --Configuration Release
 	print("Building Release")
 	filter "configurations:Release"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KCore;" }
---[[		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KCore/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KCore/$(Configuration)/" }
-]]--
-		excludes { "" }		        
+        sysincludedirs { "" }
+		includedirs { "" }
+	    libdirs { "" }
+		excludes { "" }      
 		links { "" }
         flags { "StaticRuntime", "Optimize" }  		
-		defines { "NDEBUG", "WIN_32", "WIN32", "_WINDOWS" }		
+		defines { "NDEBUG", "WIN_32", "WIN32", "_WINDOWS", "KARMA_GL" }		
 
 print("Project Generation done...")

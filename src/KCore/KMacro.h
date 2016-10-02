@@ -8,20 +8,12 @@ All rights reserved.
 #include <iostream>
 #include <sstream>
 #include <assert.h>
+//Windows
+#include <stdio.h>
+#include <windows.h>
 
 #ifdef _MSC_VER
 #    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
-//OpenGl specific.
-#if defined KARMA_GL
-    #define KARMA_USE_GL 1
-    #define KARMA_USE_DX 0
-#endif
-
-//DirectX specific.
-#if defined KARMA_DX
-    #define KARMA_USE_GL 0
-    #define KARMA_USE_DX 1
 #endif
 
 #if defined (_DEBUG)
@@ -64,6 +56,3 @@ while(0);
 #ifndef FORCEINLINE
 #define FORCEINLINE inline
 #endif
-//Windows
-#include <stdio.h>
-#include <windows.h>

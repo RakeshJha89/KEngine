@@ -18,11 +18,9 @@ project "KFrameworkAI"
 	--Configuration Debug
 	print("Building Debug")
 	filter "configurations:Debug"
-		sysincludedirs {"$(ProjectDir);$(ProjectDir)KFrameworkAI;" }
---[[
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KFrameworkAI/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KFrameworkAI/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }
+		includedirs { "$(ProjectDir)../src/KFrameworkAI" }
+	    libdirs { "$(ProjectDir)bin/$(Configuration)/" }
 		excludes { "" }        
 		links { "" }
         flags { "StaticRuntime", "Symbols" }
@@ -31,11 +29,9 @@ project "KFrameworkAI"
 	--Configuration Release
 	print("Building Release")
 	filter "configurations:Release"
-		sysincludedirs {"$(ProjectDir);$(ProjectDir)KFrameworkAI;" }
---[[		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KFrameworkAI/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KFrameworkAI/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }
+        includedirs { "$(ProjectDir)../src/KFrameworkAI" }
+        libdirs { "$(ProjectDir)bin/$(Configuration)/" }
 		excludes { "" }		        
 		links { "" }
         flags { "StaticRuntime", "Optimize" }    		

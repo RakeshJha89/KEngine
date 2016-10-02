@@ -1,9 +1,13 @@
 
 #include "precompiled_Core.h"
+
 #include "kAppFramework_Windows.h"
+
+#include "TimerAdapter/KTimerAdapter.h"
+#include "GraphicsAdapter/KGraphicsAdapter.h"
+
 #include "KSingletonManager.h"
-#include "KTimerAdapter_Windows.h"
-#include "KGraphicsAdapter_OpenGL.h"
+#include "KAdapterFactory.h"
 #include "KComponent_Transform.h"
 
 namespace Karma
@@ -15,11 +19,10 @@ namespace Karma
 
     int kAppFramework_Windows::Initialize()
     {
+        /*SINGLETON_MANAGER.SetTimerAdapter(new TimerAdapter_Windows());
+        SINGLETON_MANAGER.SetGraphicsAdapter(new GraphicsAdapter_OpenGL());*/
+
         SINGLETON_MANAGER.Initialize();
-
-        SINGLETON_MANAGER.SetTimerAdapter(new TimerAdapter_Windows());
-        SINGLETON_MANAGER.SetGraphicsAdapter(new GraphicsAdapter_OpenGL());
-
         SINGLETON_MANAGER.GetTimerAdapter()->Initialize();
         SINGLETON_MANAGER.GetGraphicsAdapter()->Initialize();
 

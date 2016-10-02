@@ -10,5 +10,9 @@ namespace Karma
 		//Initialize all systems here.
 		m_gameTimer = nullptr;
 		m_graphicsAdapter = nullptr;
+
+
+
+
 	}
 }

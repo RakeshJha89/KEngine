@@ -67,29 +67,26 @@ project "KarmaEngine"
     --Configuration Debug
     print("Building Debug")
  	filter "configurations:Debug"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KAdapter;" }    
---[[
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }   
+        includedirs { "$(ProjectDir)../src/KCore", "$(ProjectDir)../src/KEngine", "$(ProjectDir)../src/KAdapter" }
+        libdirs { "$(ProjectDir)bin/$(Configuration)/" }
 		excludes { "" }        
-		links { "OpenGL32" }
+		links { "KCore", "KEngine", "KAdapter", "glew32s", "glew32", "glfw3" }
         flags { "StaticRuntime", "Symbols" }		
 		defines { "DEBUG", "WIN_32", "WIN32", "_DEBUG", "_WINDOWS", "KARMA_GL" }
-
+        entrypoint("")
+        
     --Configuration Release
 	print("Building Release")
 	filter "configurations:Release"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KAdapter;" }
---[[		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }
+        includedirs { "$(ProjectDir)../src/KCore", "$(ProjectDir)../src/KEngine", "$(ProjectDir)../src/KAdapter" }
+        libdirs { "$(ProjectDir)bin/$(Configuration)/" }
 		excludes { "" }		        
-		links { "OpenGL32" }
+		links { "KCore", "KEngine", "KAdapter", "glew32s", "glew32", "glfw3" }
         flags { "StaticRuntime", "Optimize" }    		
 		defines { "NDEBUG", "WIN_32", "WIN32", "_WINDOWS", "KARMA_GL" }  
-
+        entrypoint("")
 
 include("KAdapter")
 include("KCore")

@@ -1,6 +1,6 @@
 
-#include "KTimerAdapter_Windows.h"
 #include "KMacro.h"
+#include "KTimerAdapter_Windows.h"
 
 namespace Karma
 {

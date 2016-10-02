@@ -18,26 +18,22 @@ project "KEngine"
     --Configuration Debug
     print("Building Debug")
  	filter "configurations:Debug"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KEngine;" }    
---[[
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KEngine/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KEngine/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }  
+        includedirs { "$(ProjectDir)../src/KAdapter" }
+        libdirs { "$(ProjectDir)build/bin/$(Configuration)" }
 		excludes { "" }        
-		links { "" }
+		links { "KAdapter" }
         flags { "StaticRuntime", "Symbols" }		
 		defines { "DEBUG", "WIN_32", "WIN32", "_DEBUG", "_WINDOWS" }
 
     --Configuration Release
 	print("Building Release")
 	filter "configurations:Release"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KEngine;" }
---[[		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KEngine/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KEngine/$(Configuration)/" }
-]]--
-		excludes { "" }		        
-		links { "" }
+		sysincludedirs { "" }
+        includedirs { "$(ProjectDir)../src/KAdapter" }
+        libdirs { "$(ProjectDir)build/bin/$(Configuration)" }
+		excludes { "" }        
+		links { "KAdapter" }
         flags { "StaticRuntime", "Optimize" } 		
 		defines { "NDEBUG", "WIN_32", "WIN32", "_WINDOWS" }		
 

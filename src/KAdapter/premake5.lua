@@ -18,26 +18,22 @@ project "KAdapter"
     --Configuration Debug
     print("Building Debug")
  	filter "configurations:Debug"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KAdapter;" }    
---[[
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }    
+		includedirs { "$(ProjectDir)../src/KEngine", "$(ProjectDir)../src/KCore", "$(ProjectDir)../thirdparty/gl/include/" }
+	    libdirs { "$(ProjectDir)bin/$(Configuration)/", "$(ProjectDir)../thirdparty/gl/$(Configuration)/" }
 		excludes { "" }        
-		links { "" }
+		links { "KEngine", "KCore", "glew32s", "glew32", "glfw3" }
         flags { "StaticRuntime", "Symbols" }	
 		defines { "DEBUG", "WIN_32", "WIN32", "_DEBUG", "_WINDOWS" }	
 
     --Configuration Release
 	print("Building Release")
 	filter "configurations:Release"
-		--sysincludedirs {"$(ProjectDir);$(ProjectDir)KAdapter;" }
---[[		
-		includedirs { "$(ProjectDir)", "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/include/" }
-	    libdirs { "$(ProjectDir)Libs", "$(ProjectDir)Libs/KAdapter/$(Configuration)/" }
-]]--
+		sysincludedirs { "" }
+        includedirs { "$(ProjectDir)../src/KEngine", "$(ProjectDir)../src/KCore", "$(ProjectDir)../thirdparty/gl/include/" }
+	    libdirs { "$(ProjectDir)bin/$(Configuration)/", "$(ProjectDir)../thirdparty/gl/$(Configuration)/" }
 		excludes { "" }		        
-		links { "" }
+		links { "KEngine", "KCore", "glew32s", "glew32", "glfw3" }
         flags { "StaticRuntime", "Optimize" }  		
 		defines { "NDEBUG", "WIN_32", "WIN32", "_WINDOWS" }	
 

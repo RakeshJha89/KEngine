@@ -1,9 +1,9 @@
 
-#include "KGraphicsAdapter_OpenGL.h"
 #include "KMacro.h"
 #include "KTypes.h"
+#include "KGraphicsAdapter_OpenGL.h"
 
-#if KARMA_GL
+//#if KARMA_USE_GL
 
 
 namespace Karma
@@ -86,4 +86,4 @@ namespace Karma
 			glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 }
-#endif
+//#endif
