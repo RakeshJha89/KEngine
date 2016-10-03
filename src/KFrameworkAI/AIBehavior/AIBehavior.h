@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IBehavior.h"
+#include "AIBehavior/IBehavior.h"
 
 class Behavior : public IBehavior
 {

@@ -10,7 +10,7 @@ struct ActionBindTest
 {
 	BehaviorStatus PrintPassedParam(std::string strg)
 	{
-		std::string passedStr = strg;
+		std::string passedStr = "Hello World";
 		EXPECT_EQ(passedStr, strg);
 
 		return BehaviorStatus_Success;
@@ -29,20 +29,15 @@ ActionBindTest bindTest;
 
 TEST(AIAction, Test_ActionBind)
 {
-	auto ab = ACTIONBIND(&ActionBindTest::PrintHelloWorld, &bindTest);
+	auto ab = ACTIONBIND(&ActionBindTest::PrintHelloWorld, bindTest);
 	ab();	//Execute.
 }
 
 TEST(AIAction, Test_ActionBind_Pass_Param)
 {
-	//ActionBind<ptrFunction> action;
-	//action.SetActionBind(PrintPassedParam);	//Bind the function
-	//action("Hello World");					//Execute
+	auto ab = ACTIONBIND(&ActionBindTest::PrintPassedParam, bindTest);
+	ab("Hello World");
 }
-
-
-
-
 
 TEST(AIBehavior, Test_Initialize_BaseBehavior_Fail_NoInitBind)
 {
@@ -62,12 +57,13 @@ BehaviorStatus OnInitialize()
 }
 
 TEST(AIBehavior, Test_Initialize_BaseBehavior_ActionBind)
-{/*
-	ActionBind<ptrAction> action;
-	action.SetActionBind(OnInitialize);
+{
+	//auto ab = ACTIONBIND(OnInitialize);
+	auto ab = ACTIONBIND(&ActionBindTest::PrintPassedParam, bindTest);
+	ab("Hello World");
 
 	MockBehavior* mb = new MockBehavior();
-	mb->SetOnInitialize(&action);
+	mb->SetOnInitialize(&ab);
 
 	EXPECT_EQ(BehaviorStatus_Invalid, mb->GetStatus());
 
@@ -75,7 +71,7 @@ TEST(AIBehavior, Test_Initialize_BaseBehavior_ActionBind)
 
 	EXPECT_EQ(BehaviorStatus_Running, mb->GetStatus());
 
-	delete mb; */
+	delete mb; 
 }
 
 TEST(AIBehavior, Test_Selector_Returns_Success_One_Child)

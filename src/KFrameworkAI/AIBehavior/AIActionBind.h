@@ -1,64 +1,62 @@
 #pragma once
 //Define various Action types.
+#include <iostream>
 
-#include "AICommon.h"
+template<typename T>
+class ActionBind;
 
-
-template <typename ReturnType, typename... FuncArgs>
-class ActionBind
+template <typename T, typename ReturnType, typename... FuncArgs>
+class ActionBind<ReturnType (T::*) (FuncArgs...)>
 {
-	typedef ReturnType(*FuncPtr)(void* callee, FuncArgs...);
+	typedef ReturnType (T::*FuncPtr)( FuncArgs...);
 public:
 	
-	ActionBind(void* callee, FuncPtr function)
-	: m_callee(callee),
-	  m_functionCallback(function){}
-
-
-	template<class T, ReturnType (T::*TMethod)(FuncArgs...)>
-	static ActionBind BindFunction(T* callee)
-	{
-		ActionBind actionBind(callee, &CallBindMethod < T, TMethod>);
-		return actionBind;
-	}
+	ActionBind( FuncPtr function, T& callee )
+	: m_functionCallback(function),
+	  m_callee(callee) {}
 
 	ReturnType operator()(FuncArgs... fnArgs) const
 	{
-		return (*m_functionCallback)(m_callee, fnArgs...);
+		return (m_callee.*m_functionCallback)( fnArgs...);
 	}
 
 private:
-	void* m_callee;
+	T& m_callee;
 	FuncPtr m_functionCallback;
 
-	template<class T, ReturnType(T::*TMethod)(FuncArgs...)>
-	static ReturnType CallBindMethod(void* callee, FuncArgs... fnArgs)
-	{
-		T* classPtr = static_cast<T*>(callee);
-		return (classPtr->*TMethod)(fnArgs...);
-	}
 };
 
-template<typename T, typename ReturnType, typename... FuncArgs>
-struct DelegateWrapper
+//Specialized for global functions.
+template <typename ReturnType, typename... FuncArgs>
+class ActionBind<ReturnType (*) (FuncArgs...)>
 {
-	template<ReturnType (T::*FuncPtr)(FuncArgs...)>
-	static ReturnType BindCaller(void* callee, FuncArgs... funcArgs)
+	typedef ReturnType (*FuncPtr) ( FuncArgs...);
+public:
+
+	ActionBind(FuncPtr function)
+		: m_functionCallback(function) {}
+
+	ReturnType operator()(FuncArgs... fnArgs) const
 	{
-		return (static_cast<T*>(callee)->*FuncPtr)(funcArgs...);
+		return (*m_functionCallback)(fnArgs...);
 	}
 
-	template<ReturnType(T::*FuncPtr)(FuncArgs...)>
-	inline static ActionBind<ReturnType, FuncArgs...> BindFunc(T* callee)
-	{
-		return ActionBind<ReturnType, FuncArgs...>(callee, &DelegateWrapper::BindCaller<FuncPtr>);
-	}
+private:
+	FuncPtr m_functionCallback;
 };
 
-template<typename T, typename ReturnType, typename... FuncArgs>
-DelegateWrapper<T, ReturnType, FuncArgs...>	WrapDelegate(ReturnType (T::*)(FuncArgs...))
+
+template<typename ReturnType, typename T>
+ActionBind<ReturnType>	WrapAction(ReturnType funcPtr, T& objRef)
 {
-	return DelegateWrapper<T, ReturnType, FuncArgs...>();
+	return ActionBind<ReturnType>(funcPtr, objRef);
 }
 
-#define ACTIONBIND(methodRef, objectRef)	(WrapDelegate(methodRef).BindFunc<methodRef>(objectRef));
+template<typename ReturnType>
+ActionBind<ReturnType>	WrapAction(ReturnType funcPtr)
+{
+	return ActionBind<ReturnType>(funcPtr);
+}
+
+#define ACTIONBIND WrapAction
+//#define ACTIONBINDGLOBAL WrapAction;
