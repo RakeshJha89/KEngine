@@ -2,7 +2,9 @@
 #include "AIBehavior.h"
 
 Behavior::Behavior()
-:	m_ActionInitialize(nullptr),
+:	m_OnInitialize(NULL),
+	m_OnUpdate(NULL),
+	m_OnTerminate(NULL),
 	m_behaviorStatus(BehaviorStatus_Invalid)
 {
 
@@ -24,16 +26,15 @@ BehaviorStatus Behavior::Tick(float dt)
 
 	if (GetStatus() != BehaviorStatus_Running)
 	{
-		OnTerminate();
+		OnTerminate(GetStatus());
 	}
 
 	return GetStatus();
 }
 
-BehaviorStatus  Behavior::OnInitialize()
+void  Behavior::OnInitialize()
 {
 	SetStatus(BehaviorStatus_Invalid);
-	return GetStatus();
 }
 
 BehaviorStatus  Behavior::OnUpdate()
@@ -42,8 +43,7 @@ BehaviorStatus  Behavior::OnUpdate()
 	return GetStatus();
 }
 
-BehaviorStatus  Behavior::OnTerminate()
+void  Behavior::OnTerminate(BehaviorStatus)
 {
 	SetStatus(BehaviorStatus_Invalid);
-	return GetStatus();
 }

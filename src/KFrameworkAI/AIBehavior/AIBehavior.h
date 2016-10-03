@@ -12,20 +12,20 @@ public:
 	virtual BehaviorStatus	GetStatus() override { return m_behaviorStatus; }
 
 	virtual void			SetStatus(BehaviorStatus status) override { m_behaviorStatus = status; }
-	virtual void			SetOnInitialize(ActionBind<BehaviorStatus>* actionBind) override { m_ActionInitialize = actionBind; }
-	virtual void			SetOnUpdate(ActionBind<BehaviorStatus>* actionBind) override { m_ActionTick = actionBind; }
-	virtual void			SetOnTerminate(ActionBind<BehaviorStatus>* actionBind) override { m_ActionTerminate = actionBind; }
+
+	virtual void			SetOnInitialize(ActionBind<InitFunc>* callback) override { m_OnInitialize = callback; }
+	virtual void			SetOnUpdate(ActionBind<UpdateFunc>* callback) override { m_OnUpdate = callback; }
+	virtual void			SetOnTerminate(ActionBind<TermFunc>* callback) override { m_OnTerminate = callback; }
 
 protected:
-	virtual BehaviorStatus			OnInitialize() override;
-	virtual BehaviorStatus			OnUpdate() override;
-	virtual BehaviorStatus			OnTerminate() override;
-	virtual bool			GetInitializeBind() override { return (m_ActionInitialize != nullptr) ? true : false; }
+	virtual void			OnInitialize() override;
+	virtual BehaviorStatus	OnUpdate() override;
+	virtual void			OnTerminate(BehaviorStatus status) override;
+	virtual bool			GetInitializeBind() override { return (m_OnInitialize != nullptr) ?  true :  false; }
 
-private:
-	ActionBind<BehaviorStatus>* m_ActionInitialize;
-	ActionBind<BehaviorStatus>* m_ActionTick;
-	ActionBind<BehaviorStatus>* m_ActionTerminate;
+	ActionBind<InitFunc>* m_OnInitialize;
+	ActionBind<UpdateFunc>* m_OnUpdate;
+	ActionBind<TermFunc>* m_OnTerminate;
 
 	BehaviorStatus		m_behaviorStatus;
 };

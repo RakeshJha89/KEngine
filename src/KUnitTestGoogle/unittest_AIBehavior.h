@@ -6,6 +6,25 @@
 
 /*Examples*/
 
+class TestBehaviorCallee : public IBehaviorCallee
+{
+public:
+	void InitializeCb() override
+	{
+
+	}
+
+	BehaviorStatus UpdateCb() override
+	{
+		return BehaviorStatus_Success;
+	}
+
+	void TerminateCb(BehaviorStatus status)
+	{
+		printf("Terminated with status code %d\n", status);
+	}
+};
+
 struct ActionBindTest
 {
 	BehaviorStatus PrintPassedParam(std::string strg)
@@ -29,38 +48,32 @@ ActionBindTest bindTest;
 
 TEST(AIAction, Test_ActionBind)
 {
-	auto ab = ACTIONBIND(&ActionBindTest::PrintHelloWorld, bindTest);
-	ab();	//Execute.
+ 	auto ab = ACTIONBIND(&ActionBindTest::PrintHelloWorld, &bindTest);
+ 	ab();	//Execute.
 }
 
 TEST(AIAction, Test_ActionBind_Pass_Param)
 {
-	auto ab = ACTIONBIND(&ActionBindTest::PrintPassedParam, bindTest);
-	ab("Hello World");
+ 	auto ab = ACTIONBIND(&ActionBindTest::PrintPassedParam, &bindTest);
+ 	ab("Hello World");
 }
 
 TEST(AIBehavior, Test_Initialize_BaseBehavior_Fail_NoInitBind)
 {
-	MockBehavior* mb = new MockBehavior();
-	EXPECT_EQ(BehaviorStatus_Invalid, mb->GetStatus());
+	MockBehavior mb;
+	EXPECT_EQ(BehaviorStatus_Invalid, mb.GetStatus());
 
-	mb->Tick(0.0f);
+	mb.Tick(0.0f);
 
-	EXPECT_EQ(BehaviorStatus_Invalid, mb->GetStatus());
+	EXPECT_EQ(BehaviorStatus_Invalid, mb.GetStatus());
 
-	delete mb;
-}
-
-BehaviorStatus OnInitialize()
-{
-	return BehaviorStatus_Success;
 }
 
 TEST(AIBehavior, Test_Initialize_BaseBehavior_ActionBind)
 {
-	//auto ab = ACTIONBIND(OnInitialize);
-	auto ab = ACTIONBIND(&ActionBindTest::PrintPassedParam, bindTest);
-	ab("Hello World");
+	TestBehaviorCallee tCallee;
+	auto ab = ACTIONBIND(&IBehaviorCallee::InitializeCb, &tCallee);
+	//ab();
 
 	MockBehavior* mb = new MockBehavior();
 	mb->SetOnInitialize(&ab);
@@ -69,7 +82,7 @@ TEST(AIBehavior, Test_Initialize_BaseBehavior_ActionBind)
 
 	mb->Tick(0.0f);
 
-	EXPECT_EQ(BehaviorStatus_Running, mb->GetStatus());
+	EXPECT_EQ(BehaviorStatus_Invalid, mb->GetStatus());
 
 	delete mb; 
 }
@@ -78,6 +91,7 @@ TEST(AIBehavior, Test_Selector_Returns_Success_One_Child)
 {
 	//SelectorBehavior sb = new SelectorBehavior();
 }
+
 
 
 
