@@ -1,49 +1,81 @@
 
 #include "AIBehavior.h"
 
-Behavior::Behavior()
+BehaviorBase::BehaviorBase()
 :	m_OnInitialize(NULL),
-	m_OnUpdate(NULL),
-	m_OnTerminate(NULL),
-	m_behaviorStatus(BehaviorStatus_Invalid)
+    m_OnUpdate(NULL),
+    m_OnTerminate(NULL),
+    m_OnInitializeGlobal(NULL),
+    m_OnUpdateGlobal(NULL),
+    m_OnTerminateGlobal(NULL),
+    m_behaviorStatus(BHInvalid)
 {
 
 }
 
-Behavior::~Behavior()
+
+BehaviorBase::~BehaviorBase() noexcept
 {
-	SetStatus(BehaviorStatus_Invalid);
+    ResetData();
 }
 
-BehaviorStatus Behavior::Tick(float dt)
+
+void BehaviorBase::ResetData()
 {
-	if (GetStatus() == BehaviorStatus_Invalid && GetInitializeBind())
-	{
-		OnInitialize();
-	}
-
-	OnUpdate();
-
-	if (GetStatus() != BehaviorStatus_Running)
-	{
-		OnTerminate(GetStatus());
-	}
-
-	return GetStatus();
+    m_OnInitialize = NULL;
+    m_OnUpdate = NULL;
+    m_OnTerminate = NULL;
+    m_OnInitializeGlobal = NULL;
+    m_OnUpdateGlobal = NULL;
+    m_OnTerminateGlobal = NULL;
+    m_behaviorStatus = BHInvalid;
 }
 
-void  Behavior::OnInitialize()
+BehaviorStatus BehaviorBase::Tick(float dt)
 {
-	SetStatus(BehaviorStatus_Invalid);
+    if (GetStatus() == BHInvalid)
+    {
+        OnInitialize();
+    }
+
+    SetStatus(OnUpdate());
+
+    if (GetStatus() != BHRunning)
+    {
+        OnTerminate(GetStatus());
+    }
+
+    return GetStatus();
 }
 
-BehaviorStatus  Behavior::OnUpdate()
+void  BehaviorBase::OnInitialize()
 {
-	SetStatus(BehaviorStatus_Invalid);
-	return GetStatus();
+    if(m_OnInitialize != NULL)
+        (*m_OnInitialize)();
+    if(m_OnInitializeGlobal != NULL)
+        (*m_OnInitializeGlobal)();
+
+    BehaviorStatus st = BHRunning;
+    SetStatus(st);
 }
 
-void  Behavior::OnTerminate(BehaviorStatus)
+BehaviorStatus  BehaviorBase::OnUpdate()
 {
-	SetStatus(BehaviorStatus_Invalid);
+    BehaviorStatus st = GetStatus();
+    if(m_OnUpdate != NULL)
+         st = (*m_OnUpdate)();
+    if(m_OnUpdateGlobal != NULL)
+        st = (*m_OnUpdateGlobal)();
+
+    return st;
+}
+
+void  BehaviorBase::OnTerminate(BehaviorStatus st)
+{
+    if(m_OnTerminate != NULL)
+        (*m_OnTerminate)(st);
+    if(m_OnTerminateGlobal != NULL)
+        (*m_OnTerminateGlobal)(st);
+
+    SetStatus(st);
 }

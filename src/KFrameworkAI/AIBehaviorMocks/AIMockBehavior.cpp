@@ -1,34 +1,17 @@
 #include "AIMockBehavior.h"
 
-MockBehavior::MockBehavior()
+MockSelector::MockSelector(int size)
 {
-	//Do some initialization work here.
+    for (int i = 0; i < size; ++i)
+    {
+        AddChild(new MockBehavior("MockSelector"));
+    }
 }
 
-MockBehavior::~MockBehavior()
+MockSequence::MockSequence(int size)
 {
-	//DO cleanup work here.
-}
-
-BehaviorStatus MockBehavior::Tick(float dt)
-{
-	return Behavior::Tick(dt);
-}
-
-BehaviorStatus  MockBehavior::OnInitialize()
-{
-	SetStatus(BehaviorStatus_Running);
-	return GetStatus();
-}
-
-BehaviorStatus  MockBehavior::OnUpdate()
-{
-	SetStatus(BehaviorStatus_Success);
-	return GetStatus();
-}
-
-BehaviorStatus  MockBehavior::OnTerminate()
-{
-	SetStatus(BehaviorStatus_Invalid);
-	return GetStatus();
+    for (int i = 0; i < size; ++i)
+    {
+        AddChild(new MockBehavior("MockSequence"));
+    }
 }
