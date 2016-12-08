@@ -13,7 +13,7 @@ public:
     BlackboardKeyEntry()
     {
         m_KeyName = "Default";
-        m_KeyData = NULL;
+        m_KeyData = nullptr;
     }
 
     ~BlackboardKeyEntry()

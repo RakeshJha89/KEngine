@@ -12,14 +12,14 @@ public:
     BehaviorBase*   AddChild(BehaviorBase* child) override;
 
     void SetReturnStatusOverride(BehaviorStatus status) { m_decoratorStatus = status; }
-    void SetCanExecute(ActionBind<TFuncPtr<IBehaviorCallee, bool>>* fnPtr) { m_CanExecute = fnPtr; }
-    void SetCanExecute(ActionBind<TFuncPtrG<bool>>* fnPtr) { m_CanExecuteG = fnPtr; }
+    void SetCanExecute(BehaviorDelegate<TFuncPtr<IBehaviorCallee, bool>>* fnPtr) { m_CanExecute = fnPtr; }
+    void SetCanExecute(BehaviorDelegate<TFuncPtrG<bool>>* fnPtr) { m_CanExecuteG = fnPtr; }
 
 
 private:
     BehaviorStatus OnUpdate() override;
-    ActionBind<TFuncPtr<IBehaviorCallee, bool>>* m_CanExecute;
-    ActionBind<TFuncPtrG<bool>>* m_CanExecuteG;
+    BehaviorDelegate<TFuncPtr<IBehaviorCallee, bool>>* m_CanExecute;
+    BehaviorDelegate<TFuncPtrG<bool>>* m_CanExecuteG;
 
     BehaviorStatus m_decoratorStatus;
 };

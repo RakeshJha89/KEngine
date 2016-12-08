@@ -2,7 +2,7 @@
 
 #include "IBehaviorCallee.h"
 #include "AIBehaviorEnums.h"
-#include "AIBehavior/AIActionBind.h"
+#include "AIBehaviorDelegate.h"
 
 class BehaviorBase
 {
@@ -15,14 +15,14 @@ public:
 
     virtual void            SetStatus(BehaviorStatus status) { m_behaviorStatus = status; }
 
-    virtual void            SetOnInitialize(ActionBind<TFuncPtr<IBehaviorCallee, void>>* callback) { m_OnInitialize = callback; }
-    virtual void            SetOnInitialize(ActionBind<TFuncPtrG<void>>* callback) { m_OnInitializeGlobal = callback; }
+    virtual void            SetOnInitialize(BehaviorDelegate<TFuncPtr<IBehaviorCallee, void>>* callback) { m_OnInitialize = callback; }
+    virtual void            SetOnInitialize(BehaviorDelegate<TFuncPtrG<void>>* callback) { m_OnInitializeGlobal = callback; }
 
-    virtual void            SetOnUpdate(ActionBind<TFuncPtr<IBehaviorCallee, BehaviorStatus>>* callback) { m_OnUpdate = callback; }
-    virtual void            SetOnUpdate(ActionBind<TFuncPtrG<BehaviorStatus>>* callback) { m_OnUpdateGlobal = callback; }
+    virtual void            SetOnUpdate(BehaviorDelegate<TFuncPtr<IBehaviorCallee, BehaviorStatus>>* callback) { m_OnUpdate = callback; }
+    virtual void            SetOnUpdate(BehaviorDelegate<TFuncPtrG<BehaviorStatus>>* callback) { m_OnUpdateGlobal = callback; }
 
-    virtual void            SetOnTerminate(ActionBind<TFuncPtr<IBehaviorCallee, void, BehaviorStatus>>* callback) { m_OnTerminate = callback; }
-    virtual void            SetOnTerminate(ActionBind<TFuncPtrG<void, BehaviorStatus>>* callback) { m_OnTerminateGlobal = callback; }
+    virtual void            SetOnTerminate(BehaviorDelegate<TFuncPtr<IBehaviorCallee, void, BehaviorStatus>>* callback) { m_OnTerminate = callback; }
+    virtual void            SetOnTerminate(BehaviorDelegate<TFuncPtrG<void, BehaviorStatus>>* callback) { m_OnTerminateGlobal = callback; }
 
     virtual BehaviorStatus Tick(float dt = 0.0f);
     virtual void            Reset() {};
@@ -41,13 +41,13 @@ private:
 
     void ResetData();
 
-    ActionBind<TFuncPtr<IBehaviorCallee, void>>*                        m_OnInitialize;
-    ActionBind<TFuncPtr<IBehaviorCallee, BehaviorStatus>>*              m_OnUpdate;
-    ActionBind<TFuncPtr<IBehaviorCallee, void, BehaviorStatus>>*        m_OnTerminate;
+    BehaviorDelegate<TFuncPtr<IBehaviorCallee, void>>*                        m_OnInitialize;
+    BehaviorDelegate<TFuncPtr<IBehaviorCallee, BehaviorStatus>>*              m_OnUpdate;
+    BehaviorDelegate<TFuncPtr<IBehaviorCallee, void, BehaviorStatus>>*        m_OnTerminate;
 
-    ActionBind<TFuncPtrG<void>>*                                        m_OnInitializeGlobal;
-    ActionBind<TFuncPtrG<BehaviorStatus>>*                              m_OnUpdateGlobal;
-    ActionBind<TFuncPtrG<void, BehaviorStatus>>*                        m_OnTerminateGlobal;
+    BehaviorDelegate<TFuncPtrG<void>>*                                        m_OnInitializeGlobal;
+    BehaviorDelegate<TFuncPtrG<BehaviorStatus>>*                              m_OnUpdateGlobal;
+    BehaviorDelegate<TFuncPtrG<void, BehaviorStatus>>*                        m_OnTerminateGlobal;
 
     BehaviorStatus                  m_behaviorStatus;
 };

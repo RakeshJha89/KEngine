@@ -2,8 +2,8 @@
 
 
 Condition::Condition()
-    :   m_CanExecute(NULL),
-        m_CanExecuteG(NULL)
+    :   m_CanExecute(nullptr),
+        m_CanExecuteG(nullptr)
 {
 
 }

@@ -1,6 +1,12 @@
 #pragma once
 #include <string>
 
+//TODO: Replace the struct for Object with the base class Object with which all the other classes derive from.
+struct Object
+{
+    std::string m_ObjectName;
+};
+
 class BlackboardKeyType_Base
 {
 public:

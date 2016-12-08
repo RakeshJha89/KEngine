@@ -2,12 +2,12 @@
 #include "AIBehavior.h"
 
 BehaviorBase::BehaviorBase()
-:	m_OnInitialize(NULL),
-    m_OnUpdate(NULL),
-    m_OnTerminate(NULL),
-    m_OnInitializeGlobal(NULL),
-    m_OnUpdateGlobal(NULL),
-    m_OnTerminateGlobal(NULL),
+:	m_OnInitialize(nullptr),
+    m_OnUpdate(nullptr),
+    m_OnTerminate(nullptr),
+    m_OnInitializeGlobal(nullptr),
+    m_OnUpdateGlobal(nullptr),
+    m_OnTerminateGlobal(nullptr),
     m_behaviorStatus(BHInvalid)
 {
 
@@ -22,12 +22,12 @@ BehaviorBase::~BehaviorBase() noexcept
 
 void BehaviorBase::ResetData()
 {
-    m_OnInitialize = NULL;
-    m_OnUpdate = NULL;
-    m_OnTerminate = NULL;
-    m_OnInitializeGlobal = NULL;
-    m_OnUpdateGlobal = NULL;
-    m_OnTerminateGlobal = NULL;
+    m_OnInitialize = nullptr;
+    m_OnUpdate = nullptr;
+    m_OnTerminate = nullptr;
+    m_OnInitializeGlobal = nullptr;
+    m_OnUpdateGlobal = nullptr;
+    m_OnTerminateGlobal = nullptr;
     m_behaviorStatus = BHInvalid;
 }
 
@@ -50,9 +50,9 @@ BehaviorStatus BehaviorBase::Tick(float dt)
 
 void  BehaviorBase::OnInitialize()
 {
-    if(m_OnInitialize != NULL)
+    if(m_OnInitialize != nullptr)
         (*m_OnInitialize)();
-    if(m_OnInitializeGlobal != NULL)
+    if(m_OnInitializeGlobal != nullptr)
         (*m_OnInitializeGlobal)();
 
     BehaviorStatus st = BHRunning;
@@ -62,9 +62,9 @@ void  BehaviorBase::OnInitialize()
 BehaviorStatus  BehaviorBase::OnUpdate()
 {
     BehaviorStatus st = GetStatus();
-    if(m_OnUpdate != NULL)
+    if(m_OnUpdate != nullptr)
          st = (*m_OnUpdate)();
-    if(m_OnUpdateGlobal != NULL)
+    if(m_OnUpdateGlobal != nullptr)
         st = (*m_OnUpdateGlobal)();
 
     return st;
@@ -72,9 +72,9 @@ BehaviorStatus  BehaviorBase::OnUpdate()
 
 void  BehaviorBase::OnTerminate(BehaviorStatus st)
 {
-    if(m_OnTerminate != NULL)
+    if(m_OnTerminate != nullptr)
         (*m_OnTerminate)(st);
-    if(m_OnTerminateGlobal != NULL)
+    if(m_OnTerminateGlobal != nullptr)
         (*m_OnTerminateGlobal)(st);
 
     SetStatus(st);

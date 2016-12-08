@@ -19,12 +19,9 @@ public:
     void Reset() override;
 
 protected:
-    int m_currentChildIndex;
-
-private:
     virtual BehaviorStatus  OnUpdate() override;
 
+    int m_currentChildIndex;
     std::vector<BehaviorBase*> m_childBehaviors;
-
 };
 
